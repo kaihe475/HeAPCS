@@ -2,7 +2,7 @@ class Cruise {
 
     static Boolean cruiseControlSet = false;
 
-    static int speed = 35;
+    static int speed = 0;
 
     static final int MAX_SPEED = 65;
 
@@ -10,8 +10,14 @@ class Cruise {
 
     public static void main(String[] args) {
         toggleCruiseControl();
+        reportSpeed ();
+        decrementSpeed();
         incrementSpeed();
         toggleCruiseControl();
+        exceedsWarningThreshold();
+      
+       
+       
     }
 
     public static void toggleCruiseControl() {
@@ -21,26 +27,23 @@ class Cruise {
 
             System.out.println("Cruise Control inabled.");
              }
-        else {
+         else {
 
             System.out.println( "Cruise Control Disabled");   
         }
     }
 
     public static void incrementSpeed() {
-
-        if( cruiseControlSet && ( speed < 30 )) {
+        if( cruiseControlSet && ( speed < MAX_SPEED )) {
             
-         System.out.println(" Decelerate 5mph");
-            
-        }
+            speed += 5 ;
+        
+            System.out.println("Accelerated 5mph");
+            reportSpeed();
 
-        System.out.println("Accelerated 5mph");
-        reportSpeed();
-
-        if (exceedsWarningThreshold()){;
-
-            alert( true );
+            if (exceedsWarningThreshold()) {
+                alert( false );
+            }
         }
     }
 
@@ -48,17 +51,17 @@ class Cruise {
         if(cruiseControlSet && (speed > 0 )) {
 
             speed -= 5 ;
-        }
+        
+            System.out.println( " Decelerated 5 mph" );
+            reportSpeed();
 
-        System.out.println( " Decelerated 5 mph" );
-        reportSpeed();
-
-        if (exceedsWarningThreshold()){;
-            System.out.println( " Decelerat by 5 mph" ); ;
+            if (exceedsWarningThreshold()) {
+                alert(true) ;
+            }    
         }
     }
 
-    public static void reportSpeed () {
+    public static void  reportSpeed (){
         System.out.println("Current speed is:\t" + speed + "mph");
     }
 
